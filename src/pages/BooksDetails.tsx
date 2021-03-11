@@ -11,7 +11,6 @@ import TimerBook from "../components/TimerBook";
 import "./Books.css";
 
 const BooksDetails = (props: any) => {
-  // alert(JSON.stringify(props))
   const { BookDetail } = props?.location?.state || {};
   const history = useHistory();
 
