@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
+import { Redirect } from "react-router-dom";
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import {
   IonContent,
@@ -7,37 +8,22 @@ import {
   IonTitle,
   IonToolbar,
   IonButton,
-  IonLabel,
-  IonItem,
-  IonInput,
 } from "@ionic/react";
+import { useSelector, useDispatch, RootStateOrAny } from 'react-redux'
+import { getBook } from '../Redux/actions/bookAction'
 import "./Home.css";
 
 const BarcodeScannerComponent = () => {
   const [encodedText, setEncodedText] = useState('')
-  const [encodeData, setEncodeData] = useState('')
-
- const handleChange = (event: any) => {
-    const { value, name } = event.target;
-    console.log(value, name);
-
-  };
+  const dispatch = useDispatch()
+  const { dataBook } = useSelector((state: RootStateOrAny) => state.BooksReducer) || {}
 
   const scanCode = async () => {
     const data = await BarcodeScanner.scan();
     alert(JSON.stringify(data));
+    dispatch(getBook(data.text))
     setEncodedText(data.text)
   };
-
-  const generateCode = () => {
-    BarcodeScanner.encode(BarcodeScanner.Encode.TEXT_TYPE, encodeData)
-      .then(data => {
-        console.log("get data",data);
-      }, err => {
-        console.log("Error occured : " + err);
-      });
-  };
-
 
   return (
     <IonPage>
@@ -54,18 +40,14 @@ const BarcodeScannerComponent = () => {
             Scan
           </IonButton>
 
-          {
-            encodedText ?
-              (<div>
-                <p>
-                  Scanned Code Text : <b></b>
-                </p>
-                <p>
-                  Scanned Code Format : <b></b>
-                </p>
-              </div>) : ''
+          {dataBook && 
+            <Redirect 
+              to={{
+                pathname: `/books/${dataBook.name}`,
+                state: { BookDetail: dataBook, scanner: true },
+              }}
+            />
           }
-
         </IonContent>
       </IonPage >
   );

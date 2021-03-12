@@ -6,13 +6,17 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
+  IonButton,
 } from "@ionic/react";
+import {useDispatch} from 'react-redux'
+import { saveBook } from '../Redux/actions/bookAction'
 import TimerBook from "../components/TimerBook";
 import "./Books.css";
 
 const BooksDetails = (props: any) => {
-  const { BookDetail } = props?.location?.state || {};
+  const { BookDetail, scanner } = props?.location?.state || {};
   const history = useHistory();
+  const dispatch = useDispatch()
 
   return (
     <IonPage>
@@ -40,8 +44,19 @@ const BooksDetails = (props: any) => {
             <h4 className={"book-info"}>{BookDetail.pages}</h4>
           </>
         )}
-
         <TimerBook />
+
+        {scanner && (
+          <div className="btn">
+            <IonButton
+              onClick={() => {
+                dispatch(saveBook(BookDetail))
+              }}
+            >
+              Save
+            </IonButton>
+          </div>
+        )}
       </IonContent>
     </IonPage>
   );

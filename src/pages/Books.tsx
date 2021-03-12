@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useSelector, RootStateOrAny } from 'react-redux'
 import {
   IonContent,
   IonHeader,
@@ -12,66 +13,9 @@ import {
 } from "@ionic/react";
 import "./Home.css";
 
-const bookobj = [
-  {
-    name: "Harry potter",
-    img: "https://images-na.ssl-images-amazon.com/images/I/71sH3vxziLL.jpg",
-    author: "Leyaim Jimenez",
-    pages: 400,
-  },
-  {
-    name: "It",
-    img:
-      "https://upload.wikimedia.org/wikipedia/en/thumb/5/5a/It_cover.jpg/220px-It_cover.jpg",
-    author: "Juan Juan",
-    pages: 400,
-  },
-  {
-    name: "Kizumonogatari",
-    img:
-      "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1559758130l/46157366._SX318_.jpg",
-    author: "NNion Oasis",
-    pages: 400,
-  },
-  {
-    name: "Kizumonogatari",
-    img:
-      "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1559758130l/46157366._SX318_.jpg",
-    author: "NNion Oasis",
-    pages: 400,
-  },
-  {
-    name: "Kizumonogatari",
-    img:
-      "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1559758130l/46157366._SX318_.jpg",
-    author: "NNion Oasis",
-    pages: 400,
-  },
-  {
-    name: "Kizumonogatari",
-    img:
-      "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1559758130l/46157366._SX318_.jpg",
-    author: "NNion Oasis",
-    pages: 400,
-  },
-  {
-    name: "Kizumonogatari",
-    img:
-      "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1559758130l/46157366._SX318_.jpg",
-    author: "NNion Oasis",
-    pages: 400,
-  },
-  {
-    name: "Kizumonogatari",
-    img:
-      "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1559758130l/46157366._SX318_.jpg",
-    author: "NNion Oasis",
-    pages: 400,
-  },
-];
 
 const Books = () => {
-  const [books, setBooks] = useState(bookobj);
+  const {books} = useSelector((state: RootStateOrAny) => state.BooksReducer) || {}
 
   return (
     <IonPage>
@@ -82,7 +26,7 @@ const Books = () => {
       </IonHeader>
       <IonContent className="ion-padding">
         <IonList key={"list"}>
-          {books.map((e, index) => (
+          {books.map((e: any, index: any) => (
             <Link
               style={{ textDecoration: 'none' }}
               to={{
